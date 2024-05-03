@@ -1,0 +1,13 @@
+.pill-properties{
+    @apply bg-rose-500;
+    @apply text-white;
+    @apply rounded-lg;
+    @apply px-3;
+    @apply py-1;
+    @apply text-sm;
+    @apply font-medium;
+    @apply mr-2;
+    @apply inline-flex;
+    @apply items-center;
+    @apply justify-center;
+}
