@@ -6,22 +6,30 @@ import { MovieCard } from '../../components/MovieCard';
 import { IMovieResponse } from '../../services/movies/types';
 import {Group, Time, Calendar, Star, Graph} from '../../assets';
 import { Pill } from '../../components/Pill';
-import classNames from 'classnames';
+
 
 const Show: React.FC = () => {
-    const [isFavorite, setIsFavorite] = useState(false);
-
-    const ButtonClass = classNames({
-        'text-white font-bold text-center p-2 border-2 rounded-lg w-fit h-fit': true,
-        'bg-blue-700 hover:bg-blue-900 border-blue-300': !isFavorite,
-        'bg-rose-700 hover:bg-rose-900 border-rose-300': isFavorite,
-    })
+    const [isFavorite, setIsFavorite] = useState<boolean>(false);
+    const [favorites, setFavorites] = useState<string>("");
     
-    const handleOnClick = () => {
-        setIsFavorite(!isFavorite);
+    const addFavorite = () => {
+        const favs = favorites.length > 0 ? JSON.parse(favorites) : [];
+        const newFavorites = [...favs, id];
+        setFavorites(JSON.stringify(newFavorites));
+        setIsFavorite(true);
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
     }
 
-    const titleValue = isFavorite ? '♥︎ Remove from favorites' : '♥︎ Add to favorites';
+    const removeFavorite = () => {
+        const favs = favorites.length > 0 ? JSON.parse(favorites) : [];
+        let newFavorites = [...favs];
+        newFavorites = newFavorites.filter((e) => e !== id);
+        setFavorites(JSON.stringify(newFavorites));
+        setIsFavorite(false);
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    }
+
+
     
     const {id} = useParams();
     const location = useLocation();
@@ -62,6 +70,11 @@ const Show: React.FC = () => {
     };
 
     useEffect(() => {
+        const favs = localStorage.getItem('favorites') || '';
+        setFavorites(favs);
+        if( favs.includes(String(id))) {
+            setIsFavorite(true);
+        }
         setLoadingDetails(true);
         setLoadingRecommendations(true);
         getDetails();
@@ -123,7 +136,16 @@ const Show: React.FC = () => {
                         </div>
                         <div className='grid mx-20'>
                             <div className='text-lg font-semibold'>Favorite</div>
-                            <button onClick={handleOnClick} className={ButtonClass}>{titleValue}</button>
+                            {isFavorite ? (
+                                <div>
+                                     <button className='text-white font-bold text-center p-2 border-2 rounded-lg w-fit h-fit bg-rose-700 hover:bg-rose-900 border-rose-300' onClick={removeFavorite}>Remove from favorites</button>
+                                </div>
+                            ) : (
+                                <div>
+                                    <button className='text-white font-bold text-center p-2 border-2 rounded-lg w-fit h-fit bg-blue-700 hover:bg-blue-900 border-blue-300' onClick={addFavorite}>Add to favorites</button>
+                                   
+                                </div>
+                            )}
                         </div>
                     </div>
                     <button className=" bg-indigo-700 hover:bg-indigo-900 border-2 border-indigo-200 text-white font-bold p-2 h-fit rounded-md mx-4 mb-5" onClick={goBack}>⏎ Ir atrás</button>
