@@ -29,15 +29,15 @@ const MovieCard: React.FC<IMovieCard> = ({
   };
 
   const navigateMovies = (id: number, title: string) => {
-    navigate(`${ROUTES.SHOW}${id}`, {state: {title}});
+    navigate(`${ROUTES.SHOW}${id}`, { state: { title } });
   };
-  
+
   return (
     <div className='bg-white w-64  h-96 float-left overflow-hidden block mx-3 mb-8 mr-7 relative shadow-xl rounded-lg' onClick={() => navigateMovies(movieId, title)}>
       <div className=' bg-blue-950 shadow-xl relative float-none'>
         <img
           className='transition duration-1000 scale-100 overflow-hidden w-64 h-96 relative max-w-none ml-0 hover:scale-125 hover:opacity-40'
-          src={poster} alt='poster'/>
+          src={poster} alt='poster' />
       </div>
       <div className='rounded-lg shadow-xl absolute bottom-0 left-0 w-full h-auto opacity-100 transition-all bg-gradient-to-t from-black to-transparent'>
         <div className=' text-white mx-2 mb-6'>

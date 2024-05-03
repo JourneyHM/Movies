@@ -12,6 +12,22 @@ const Show: React.FC = () => {
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [favorites, setFavorites] = useState<string>("");
     
+    const {id} = useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [details, setDetails] = useState<IMovieResponse>();
+    const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
+    const [errorDetails, setErrorDetails] = useState<boolean>(false);
+
+    const [recommendations, setRecommendations] = useState<any[]>([]);
+    const [loadingRecommendations, setLoadingRecommendations] = useState<boolean>(false);
+    const [errorRecommendations, setErrorRecommendations] = useState<boolean>(false);
+   
+    const goBack = () => {
+        navigate(-1);
+    };
+
     const addFavorite = () => {
         const favs = favorites.length > 0 ? JSON.parse(favorites) : [];
         const newFavorites = [...favs, id];
@@ -28,24 +44,6 @@ const Show: React.FC = () => {
         setIsFavorite(false);
         localStorage.setItem('favorites', JSON.stringify(newFavorites));
     }
-
-
-    
-    const {id} = useParams();
-    const location = useLocation();
-    const navigate = useNavigate();
-
-    const [details, setDetails] = useState<IMovieResponse>();
-    const [loadingDetails, setLoadingDetails] = useState<boolean>(false);
-    const [errorDetails, setErrorDetails] = useState<boolean>(false);
-
-    const [recommendations, setRecommendations] = useState<any[]>([]);
-    const [loadingRecommendations, setLoadingRecommendations] = useState<boolean>(false);
-    const [errorRecommendations, setErrorRecommendations] = useState<boolean>(false);
-   
-    const goBack = () => {
-        navigate(-1);
-    };
 
     const getDetails = async () => {
         await getMovieDetails(id)
@@ -75,16 +73,18 @@ const Show: React.FC = () => {
         if( favs.includes(String(id))) {
             setIsFavorite(true);
         }
+    }, []);
+    
+    useEffect(() => { 
         setLoadingDetails(true);
         setLoadingRecommendations(true);
         getDetails();
         getRecommendations(); 
-    }, []);
+    }, [id])
 
     return (
         <div>
             <div className='flex'>
-                {loadingDetails && <div>Loading...</div>}
                 {errorDetails && <div>Error...</div>}
                 <div className='flex-none w-1/4 h-fit overflow-hidden shadow-xl rounded-lg mx-3 my-3'>{details?.poster_path && <img src={`https://image.tmdb.org/t/p/w500/${details?.poster_path}`} alt={details?.title} /> }</div>
                 <div className='shrink flex-col-5 w-3/4 justify-between space-y-10 mr-5'>

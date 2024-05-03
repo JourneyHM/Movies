@@ -10,19 +10,24 @@ const Myfavorites = () => {
 
   const runGetFavorites = async () => {
     if(favorites.length){
+      console.log('entr{e')
+
       const favoritesArray = JSON.parse(favorites);
       const newShow = await  Promise.all(
         favoritesArray.map(async (favoriteId: string) => {
+          console.log(favoriteId, 'favoriteId')
           return getMovieDetails(favoriteId)
           .then((res) => {
-            if(res&&res.data){
-              return res.data;
+            if(res){
+              console.log(res, 'data')
+              return res;
             }
           }).catch((err) => {
             console.log(err, 'ERROR');
           });        
         })
       );
+      console.log(newShow, 'newShow')
       setShows(newShow);
       setLoading(false);
     }
