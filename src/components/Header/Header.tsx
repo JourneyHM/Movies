@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   };
 
   const linkClass = (route: string) =>
-    `flex-none w-22 text-sm font-semibold text-white my-9 ${
+    `flex-none w-22 text-sm font-semibold my-9 ${
       activeLink === route ? "text-violet-400" : "text-white"
     }`;
 
