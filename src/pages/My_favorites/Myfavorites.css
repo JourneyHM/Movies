@@ -1,0 +1,7 @@
+.title {
+    @apply text-3xl text-white font-semibold my-10 ml-10;
+}
+.message {
+    @apply text-2xl text-white font-bold mx-10;
+}
+

@@ -4,7 +4,7 @@ import { Header } from "../components/Header";
 
 const PrivateRouter = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-r from-gray-950 via-indigo-950 to-gray-950">
         <Header />
         <Outlet />
     </div>

@@ -1,12 +1,21 @@
 import React, {useEffect, useState} from "react";
 import { MovieCard } from "../../components/MovieCard";
-import { movies } from "../../constants/moviesMock";
 import { getTopRatedMovies } from "../../services/movies/getTopRatedMovies";
+import { ITopRatedMovies } from "./types";
+import classNames from "classnames";
+import './Toprated.css';
 
-const Toprated = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+const Toprated: React.FC = () => {
+  const [movies, setMovies] = useState<ITopRatedMovies[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMovies, setErrorMovies] = useState<boolean>(false);
+
+  const titleClass = classNames({
+    'title': true,
+  })
+  const pageClass = classNames({
+    'page-str': true,
+  })
 
   const getTopRated = async () => {
     await getTopRatedMovies()
@@ -28,13 +37,13 @@ const Toprated = () => {
   }, []);
   return (
     <div>
-      <h1 className="text-3xl text-gray-800 font-semibold my-6 mx-7">TOP RATED</h1>
+      <h1 className={titleClass}>TOP RATED</h1>
       {loading && <div>Loading...</div>}
       {errorMovies && <div>Error...</div>}
-      <div className='grid grid-cols-5 mx-5'>
+      <div className={pageClass}>
       {movies?.length > 0 && 
         movies.map((movie) => (
-          <div className=""><MovieCard
+          <div key={movie.id}><MovieCard
             key={movie.id}
             movieId={movie.id}
             posterPath={movie.poster_path}
@@ -45,7 +54,7 @@ const Toprated = () => {
         ))
       }
       </div>
-    </div>  
+    </div>
   );
 }
 

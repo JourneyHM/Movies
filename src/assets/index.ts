@@ -3,7 +3,8 @@ export {
     Time,
     Calendar,
     Star,
-    Graph
+    Graph,
+    Logo
 }
 
 from './icons'

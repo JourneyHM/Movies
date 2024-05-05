@@ -1,0 +1,19 @@
+.stats-str {
+  @apply text-sm font-medium mx-4;
+}
+
+.button-add-favorites {
+  @apply text-white font-bold text-center p-2 border-2 rounded-lg w-fit h-fit bg-blue-700 hover:bg-blue-900 border-blue-300;
+}
+
+.button-remove-favorites {
+  @apply text-white font-bold text-center p-2 border-2 rounded-lg w-fit h-fit bg-rose-700 hover:bg-rose-900 border-rose-300;
+}
+
+.button-go-back {
+  @apply  bg-indigo-700 hover:bg-indigo-900 border-2 border-indigo-200 text-white font-bold p-2 h-fit rounded-md mx-4 mb-5;
+}
+
+.carrusel {
+    @apply overflow-x-scroll flex -space-x-5 hide-scrollbar;
+  }

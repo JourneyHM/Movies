@@ -1,12 +1,21 @@
 import React, {useEffect, useState} from "react";
 import { MovieCard } from "../../components/MovieCard";
-import { movies } from "../../constants/moviesMock";
 import { getPopularMovies } from "../../services/movies/getPopularMovies";
+import { IPopularMovies } from "./types";
+import classNames from "classnames";
+import './Popular.css';
 
-const Popular = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+const Popular: React.FC = () => {
+  const [movies, setMovies] = useState<IPopularMovies[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMovies, setErrorMovies] = useState<boolean>(false);
+
+  const titleClass = classNames({
+    'title': true,
+  })
+  const pageClass = classNames({
+    'page-str': true,
+  })
 
   const getPopular = async () => {
     await getPopularMovies()
@@ -29,13 +38,13 @@ const Popular = () => {
 
   return (
     <div>
-      <h1 className="text-3xl text-gray-800 font-semibold my-6 mx-7">POPULAR</h1>
+      <h1 className={titleClass}>POPULAR</h1>
       {loading && <div>Loading...</div>}
       {errorMovies && <div>Error...</div>}
-      <div className='grid grid-cols-5 mx-5'>
+      <div className={pageClass}>
       {movies?.length > 0 && 
         movies.map((movie) => (
-          <div className=""><MovieCard
+          <div key={movie.id}><MovieCard
             key={movie.id}
             movieId={movie.id}
             posterPath={movie.poster_path}

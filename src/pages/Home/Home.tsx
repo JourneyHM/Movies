@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { MovieCard } from "../../components/MovieCard";
-import { movies } from "../../constants/moviesMock";
 import { getPopularMovies } from "../../services/movies/getPopularMovies";
 import { getTopRatedMovies } from "../../services/movies/getTopRatedMovies";
 import { getNowPlayingMovies } from "../../services/movies/getNowPlayingMovies";
+import classNames from "classnames";
+import './Home.css';
 
-const Home = () => {
+const Home: React.FC = () => {
   const [popmovies, setPopularMovies] = useState<any[]>([]);
   const [loadingpop, setLoadingPop] = useState<boolean>(false);
   const [poperrorMovies, setPopErrorMovies] = useState<boolean>(false);
@@ -17,6 +18,13 @@ const Home = () => {
   const [nowmovies, setNowMovies] = useState<any[]>([]);
   const [loadingnow, setLoadingNow] = useState<boolean>(false);
   const [nowerrorMovies, setNowErrorMovies] = useState<boolean>(false);
+
+  const titleClass = classNames({
+    'title': true,
+  })
+  const carruselClass = classNames({
+    'carrusel': true,
+  })
 
   const getPopular = async () => {
     await getPopularMovies()
@@ -76,14 +84,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 mx-1">
-      <h1 className="text-3xl text-gray-800 font-semibold my-6 mx-10">POPULAR</h1>
+    <div>
+      <h1 className={titleClass}>POPULAR</h1>
       {loadingpop && <div>Loading...</div>}
       {poperrorMovies && <div>Error...</div>}
-        <div className='overflow-x-scroll flex -space-x-5 hide-scrollbar'>
+        <div className={carruselClass}>
         {popmovies?.length > 0 && 
         popmovies.map((movie) => (
-          <div className=""><MovieCard
+          <div key={movie.id}><MovieCard
             key={movie.id}
             movieId={movie.id}
             posterPath={movie.poster_path}
@@ -95,13 +103,13 @@ const Home = () => {
       }
         </div>
         <br></br>
-        <h1 className="text-3xl text-gray-800 font-semibold my-6 mx-10">TOP RATED</h1>
+        <h1 className={titleClass}>TOP RATED</h1>
         {loadingtop && <div>Loading...</div>}
       {toperrorMovies && <div>Error...</div>}
-        <div className='overflow-x-scroll flex -space-x-5 hide-scrollbar'>
+        <div className={carruselClass}>
         {topmovies?.length > 0 && 
         topmovies.map((movie) => (
-          <div className=""><MovieCard
+          <div key={movie.id}><MovieCard
             key={movie.id}
             movieId={movie.id}
             posterPath={movie.poster_path}
@@ -113,13 +121,13 @@ const Home = () => {
       }
         </div>
         <br></br>
-        <h1 className="text-3xl text-gray-800 font-semibold my-6 mx-10">NOW PLAYING</h1>
+        <h1 className={titleClass}>NOW PLAYING</h1>
         {loadingnow && <div>Loading...</div>}
       {nowerrorMovies && <div>Error...</div>}
-        <div className='overflow-x-scroll flex -space-x-5 hide-scrollbar'>
+        <div className={carruselClass}>
         {nowmovies?.length > 0 && 
         nowmovies.map((movie) => (
-          <div className=""><MovieCard
+          <div key={movie.id}><MovieCard
             key={movie.id}
             movieId={movie.id}
             posterPath={movie.poster_path}
